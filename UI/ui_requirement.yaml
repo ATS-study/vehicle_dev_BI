@@ -1,0 +1,136 @@
+dashboard:
+  layout:
+    - responsive_design: true
+    - grid_layout: true
+    - sidebar: false
+  header:
+    - title: "自動車開発ダッシュボード"
+    - controls:
+        - time_range_selector:
+            options: ["日次", "週次", "月次", "四半期"]
+        - project_selector:
+            options: ["全プロジェクト", "車両A", "派生車両B", "製造", "ハードウェア"]
+        - view_mode_switch:
+            options: ["マネージャービュー", "開発者ビュー"]
+        - ai_insights_toggle: true
+        - color_theme_selector:
+            options: ["ブルー", "グリーン", "パープル", "オレンジ"]
+
+  content:
+    tabs:
+      - overview:
+          - progress_cards:
+              - vehicle_development_progress
+              - risk_status
+              - quality_indicators
+              - budget_usage
+          - development_phase_progress_chart
+      - configuration:
+          - configuration_items_table:
+              columns: ["ID", "名称", "バージョン", "最終更新日", "ステータス"]
+      - baseline:
+          - baseline_management_table:
+              columns: ["ID", "名称", "日付", "ステータス"]
+      - changes:
+          - change_management_table:
+              columns: ["ID", "タイトル", "ステータス", "優先度", "影響度"]
+      - phases:
+          - development_phases_progress:
+              - progress_bar_per_phase
+              - start_end_dates_per_phase
+      - risk:
+          - risk_scatter_plot:
+              axes: ["影響度", "発生確率"]
+          - risk_mitigation_progress:
+              - progress_bar_per_risk
+      - quality:
+          - quality_metrics_cards:
+              metrics: ["不具合率", "顧客満足度", "製品信頼性", "テストカバレッジ"]
+
+  ai_insights:
+    - display_condition: ai_insights_toggle == true
+    - content:
+        - insights_cards:
+            types: ["warning", "success", "info", "error"]
+            elements: ["タイトル", "メッセージ", "推奨アクション"]
+
+  developer_view:
+    - display_condition: view_mode == "developer"
+    - content:
+        - assigned_tasks:
+            elements: ["タスク名", "優先度", "締切", "進捗"]
+        - recent_code_reviews:
+            elements: ["PR名", "ステータス", "レビュワー", "コメント数"]
+
+  test_environment_monitoring:
+    - weather_data_cards:
+        metrics: ["時間", "温度", "湿度", "風速"]
+
+color_theming:
+  - base_colors:
+      - blue:
+          primary: "#3b82f6"
+          secondary: "#60a5fa"
+          accent: "#2563eb"
+          background: "#f0f9ff"
+          text: "#1e3a8a"
+      - green:
+          primary: "#10b981"
+          secondary: "#34d399"
+          accent: "#059669"
+          background: "#ecfdf5"
+          text: "#064e3b"
+      - purple:
+          primary: "#8b5cf6"
+          secondary: "#a78bfa"
+          accent: "#7c3aed"
+          background: "#f5f3ff"
+          text: "#4c1d95"
+      - orange:
+          primary: "#f97316"
+          secondary: "#fb923c"
+          accent: "#ea580c"
+          background: "#fff7ed"
+          text: "#7c2d12"
+  - dynamic_color_application:
+      - apply_to_all_components: true
+      - ensure_accessibility: true
+
+charts_and_graphs:
+  - use_recharts_library: true
+  - chart_types:
+      - bar_chart
+      - scatter_plot
+      - line_chart
+      - radar_chart
+  - responsive_design: true
+  - custom_tooltip: true
+
+accessibility:
+  - color_contrast: ensure_readability
+  - keyboard_navigation: implement
+  - screen_reader_support: implement
+  - responsive_design: implement_for_all_device_sizes
+
+performance:
+  - optimize_rendering: true
+  - lazy_loading: implement_for_charts_and_graphs
+  - caching: implement_for_static_data
+
+localization:
+  - default_language: "日本語"
+  - support_multiple_languages: false  # 現在は日本語のみ
+
+data_management:
+  - use_mock_data: true  # 実際のデータ接続は実装されていない
+  - data_update_frequency: on_component_mount
+
+error_handling:
+  - implement_error_boundaries: true
+  - display_user_friendly_error_messages: true
+
+future_enhancements:
+  - real_time_data_updates
+  - user_customizable_dashboard_layout
+  - export_data_functionality
+  - integration_with_external_systems
