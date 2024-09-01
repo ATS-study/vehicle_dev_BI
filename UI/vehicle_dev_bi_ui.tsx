@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, Cell } from 'recharts'
-import { Car, ShieldCheck, Factory, Cpu, Calendar, AlertTriangle, CheckCircle2, Brain, Workflow, GitBranch, MessageSquare, TrendingUp, FileText, BookOpen, TestTube, Zap, Truck, List, BarChart2, Users, Eye, EyeOff, GitCommit, GitMerge, GitPullRequest, Info, XCircle, Code } from "lucide-react"
+import { Car, ShieldCheck, Factory, Cpu, Calendar, AlertTriangle, CheckCircle2, Brain, Workflow, GitBranch, MessageSquare, TrendingUp, FileText, BookOpen, TestTube, Zap, Truck, List, BarChart2, Users, Eye, EyeOff, GitCommit, GitMerge, GitPullRequest, Info, XCircle, Code, AlertOctagon, Activity, DollarSign, UserCheck, Recycle, Briefcase, TrendingDown } from "lucide-react"
 
 export default function Component() {
   const [timeRange, setTimeRange] = useState('week')
@@ -20,7 +20,115 @@ export default function Component() {
   const [collaborationMode, setCollaborationMode] = useState(false)
   const [viewMode, setViewMode] = useState('manager') // 'manager' or 'developer'
 
-  // ... (previous state variables remain unchanged)
+  const [aSpiceData, setASpiceData] = useState([
+    { name: 'システム要件', value: 85, target: 100 },
+    { name: 'ソフトウェア要件', value: 92, target: 100 },
+    { name: 'ソフトウェア設計', value: 78, target: 100 },
+    { name: '実装', value: 88, target: 100 },
+    { name: 'テスト', value: 95, target: 100 },
+  ])
+
+  const asilLevels = {
+    A: 95,
+    B: 88,
+    C: 92,
+    D: 85,
+  }
+
+  const ganttData = [
+    { id: 1, department: '設計', task: 'システム要件定義', start: new Date(2023, 0, 1), end: new Date(2023, 1, 15), progress: 100 },
+    { id: 2, department: '設計', task: 'ソフトウェア要件定義', start: new Date(2023, 1, 16), end: new Date(2023, 3, 1), progress: 80 },
+    { id: 3, department: '開発', task: 'ソフトウェア設計', start: new Date(2023, 3, 2), end: new Date(2023, 4, 15), progress: 60 },
+    { id: 4, department: '開発', task: '実装', start: new Date(2023, 4, 16), end: new Date(2023, 6, 30), progress: 40 },
+    { id: 5, department: 'テスト', task: 'ユニットテスト', start: new Date(2023, 7, 1), end: new Date(2023, 8, 15), progress: 20 },
+    { id: 6, department: 'テスト', task: '統合テスト', start: new Date(2023, 8, 16), end: new Date(2023, 10, 30), progress: 0 },
+  ]
+
+  const branchData = [
+    { name: 'main', commits: 120, mergeRequests: 5 },
+    { name: 'feature/new-ui', commits: 45, mergeRequests: 2 },
+    { name: 'bugfix/critical-issue', commits: 15, mergeRequests: 1 },
+    { name: 'release/v1.2', commits: 30, mergeRequests: 3 },
+  ]
+
+  const requirementTraceabilityData = [
+    { id: 'REQ-001', description: 'システムは最大100km/hで走行できること', implementation: 80, test: 60, verification: 40 },
+    { id: 'REQ-002', description: 'ブレーキシステムは0.1秒以内に反応すること', implementation: 100, test: 90, verification: 80 },
+    { id: 'REQ-003', description: 'ユーザーインターフェースは3言語をサポートすること', implementation: 70, test: 50, verification: 30 },
+    { id: 'REQ-004', description: 'バッテリー残量は1%単位で表示されること', implementation: 90, test: 80, verification: 70 },
+  ]
+
+  const tailoredArtifacts = [
+    { name: 'システム要件仕様書', status: 'completed', reviewProgress: 100, openIssues: 0 },
+    { name: 'ソフトウェア設計書', status: 'inProgress', reviewProgress: 75, openIssues: 5 },
+    { name: 'テスト計画書', status: 'notStarted', reviewProgress: 0, openIssues: 0 },
+    { name: 'ユーザーマニュアル', status: 'inProgress', reviewProgress: 50, openIssues: 8 },
+  ]
+
+  const riskData = [
+    { name: '技術的リスク', probability: 0.7, impact: 0.8, mitigation: 60 },
+    { name: 'スケジュールリスク', probability: 0.5, impact: 0.9, mitigation: 75 },
+    { name: '予算リスク', probability: 0.3, impact: 0.7, mitigation: 80 },
+    { name: '品質リスク', probability: 0.4, impact: 0.6, mitigation: 70 },
+    { name: 'リソースリスク', probability: 0.6, impact: 0.5, mitigation: 65 },
+  ]
+
+  const qualityMetrics = [
+    { name: '不具合率', value: 2.5, target: 2.0, unit: '%' },
+    { name: '顧客満足度', value: 4.2, target: 4.5, unit: '/5' },
+    { name: '製品信頼性', value: 98, target: 99, unit: '%' },
+    { name: 'テストカバレッジ', value: 85, target: 90, unit: '%' },
+  ]
+
+  const supplyChainData = [
+    { name: 'サプライヤーA', onTime: 95, quality: 98, inventory: 80 },
+    { name: 'サプライヤーB', onTime: 92, quality: 95, inventory: 75 },
+    { name: 'サプライヤーC', onTime: 88, quality: 97, inventory: 60 },
+    { name: 'サプライヤーD', onTime: 97, quality: 99, inventory: 85 },
+  ]
+
+  const environmentalData = [
+    { name: 'CO2排出量', value: 120, target: 100, unit: 'g/km' },
+    { name: 'リサイクル可能率', value: 85, target: 90, unit: '%' },
+    { name: 'エネルギー効率', value: 22, target: 25, unit: 'km/kWh' },
+  ]
+
+  const financialData = {
+    budgetUsage: 65,
+    costForecast: 110,
+    roi: 15,
+  }
+
+  const humanResourcesData = [
+    { name: 'エンジニアリング', allocated: 45, available: 50, utilization: 90 },
+    { name: 'デザイン', allocated: 15, available: 20, utilization: 75 },
+    { name: '品質保証', allocated: 25, available: 30, utilization: 83 },
+    { name: 'プロジェクト管理', allocated: 10, available: 12, utilization: 83 },
+  ]
+
+  const competitorAnalysisData = [
+    { name: '自社', performance: 85, efficiency: 80, safety: 90, price: 75 },
+    { name: '競合A', performance: 80, efficiency: 85, safety: 85, price: 70 },
+    { name: '競合B', performance: 90, efficiency: 75, safety: 80, price: 80 },
+    { name: '競合C', performance: 75, efficiency: 90, safety: 85, price: 85 },
+  ]
+
+  const customerFeedbackData = {
+    satisfactionScore: 4.2,
+    topIssues: [
+      { name: '燃費', count: 45 },
+      { name: '乗り心地', count: 30 },
+      { name: 'インフォテインメント', count: 25 },
+    ],
+  }
+
+  const projectDependencies = [
+    { id: 1, name: '車両Aプラットフォーム開発', dependencies: [2, 3] },
+    { id: 2, name: 'パワートレイン最適化', dependencies: [4] },
+    { id: 3, name: '車体設計', dependencies: [5] },
+    { id: 4, name: 'バッテリー技術開発', dependencies: [] },
+    { id: 5, name: '内装デザイン', dependencies: [] },
+  ]
 
   const managerAiInsights = [
     {
@@ -78,7 +186,7 @@ export default function Component() {
     }
   ]
 
-  // ... (other data structures remain unchanged)
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -199,18 +307,383 @@ export default function Component() {
       )}
 
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+        <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           <TabsTrigger value="overview">概要</TabsTrigger>
-          <TabsTrigger value="milestones">マイルストーン</TabsTrigger>
-          <TabsTrigger value="software">ソフトウェア開発</TabsTrigger>
-          <TabsTrigger value="requirements">要件管理</TabsTrigger>
-          <TabsTrigger value="artifacts">成果物</TabsTrigger>
-          <TabsTrigger value="testing">テスト</TabsTrigger>
-          <TabsTrigger value="compliance">法規制遵守</TabsTrigger>
+          <TabsTrigger value="risk">リスク管理</TabsTrigger>
+          <TabsTrigger value="quality">品質メトリクス</TabsTrigger>
+          <TabsTrigger value="supplyChain">サプライチェーン</TabsTrigger>
+          <TabsTrigger value="environmental">環境影響</TabsTrigger>
+          <TabsTrigger value="financial">財務</TabsTrigger>
+          <TabsTrigger value="hr">人材リソース</TabsTrigger>
+          <TabsTrigger value="competitors">競合分析</TabsTrigger>
+          <TabsTrigger value="feedback">顧客フィードバック</TabsTrigger>
+          <TabsTrigger value="dependencies">プロジェクト依存関係</TabsTrigger>
         </TabsList>
 
-        {/* TabsContent sections remain unchanged */}
+        <TabsContent value="overview" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  <Car className="mr-2 inline-block" /> 車両開発進捗
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">75%</div>
+                <p className="text-xs text-muted-foreground">全体進捗率</p>
+                <Progress value={75} className="mt-2" />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  <AlertOctagon className="mr-2 inline-block" /> リスク状況
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">中</div>
+                <p className="text-xs text-muted-foreground">全体リスクレベル</p>
+                <Progress value={50} className="mt-2" />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  <Activity className="mr-2 inline-block" /> 品質指標
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">4.2/5</div>
+                <p className="text-xs text-muted-foreground">顧客満足度</p>
+                <Progress value={84} className="mt-2" />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  <DollarSign className="mr-2 inline-block" /> 予算使用状況
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">65%</div>
+                <p className="text-xs text-muted-foreground">予算消化率</p>
+                <Progress value={65} className="mt-2" />
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
 
+        <TabsContent value="risk" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <AlertOctagon className="mr-2" />
+                リスク管理ダッシュボード
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                  <CartesianGrid />
+                  <XAxis type="number" dataKey="impact" name="影響度" unit="" />
+                  <YAxis type="number" dataKey="probability" name="発生確率" unit="" />
+                  <Tooltip cursor={{ strokeDasharray: '3 3' }} content={<CustomTooltip />} />
+                  <Legend />
+                  <Scatter name="リスク" data={riskData} fill="#8884d8">
+                    {riskData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Scatter>
+                </ScatterChart>
+              </ResponsiveContainer>
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold mb-2">リスク軽減進捗</h3>
+                {riskData.map((risk, index) => (
+                  <div key={index} className="flex items-center justify-between mb-2">
+                    <span>{risk.name}</span>
+                    <div className="flex items-center">
+                      <Progress value={risk.mitigation} className="w-24 mr-2" />
+                      <span>{risk.mitigation}%</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="quality" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Activity className="mr-2" />
+                品質メトリクス
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-2">
+                {qualityMetrics.map((metric, index) => (
+                  <Card key={index}>
+                    <CardHeader>
+                      <CardTitle>{metric.name}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-2xl font-bold">{metric.value}{metric.unit}</div>
+                      <p className="text-sm text-muted-foreground">目標: {metric.target}{metric.unit}</p>
+                      <Progress value={(metric.value / metric.target) * 100} className="mt-2" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="supplyChain" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Truck className="mr-2" />
+                サプライチェーン可視化
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={supplyChainData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend />
+                  <Bar dataKey="onTime" name="納期遵守率" fill="#8884d8" />
+                  <Bar dataKey="quality" name="品質スコア" fill="#82ca9d" />
+                  <Bar dataKey="inventory" name="在庫レベル" fill="#ffc658" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="environmental" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Recycle className="mr-2" />
+                環境影響評価
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-3">
+                {environmentalData.map((metric, index) => (
+                  <Card key={index}>
+                    <CardHeader>
+                      <CardTitle>{metric.name}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-2xl font-bold">{metric.value}{metric.unit}</div>
+                      <p className="text-sm text-muted-foreground">目標: {metric.target}{metric.unit}</p>
+                      <Progress value={(metric.value / metric.target) * 100} className="mt-2" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="financial" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <DollarSign className="mr-2" />
+                財務トラッキング
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-3">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>予算使用状況</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{financialData.budgetUsage}%</div>
+                    <Progress value={financialData.budgetUsage} className="mt-2" />
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>コスト予測</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{financialData.costForecast}%</div>
+                    <p className="text-sm text-muted-foreground">予算比</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>ROI</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{financialData.roi}%</div>
+                    <p className="text-sm text-muted-foreground">予測投資収益率</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="hr" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <UserCheck className="mr-2" />
+                人材リソース管理
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={humanResourcesData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend />
+                  <Bar dataKey="allocated" name="割り当て済み" fill="#8884d8" />
+                  <Bar dataKey="available" name="利用可能" fill="#82ca9d" />
+                </BarChart>
+              </ResponsiveContainer>
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold mb-2">リソース稼働率</h3>
+                {humanResourcesData.map((dept, index) => (
+                  <div key={index} className="flex items-center justify-between mb-2">
+                    <span>{dept.name}</span>
+                    <div className="flex items-center">
+                      <Progress value={dept.utilization} className="w-24 mr-2" />
+                      <span>{dept.utilization}%</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="competitors" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <TrendingUp className="mr-2" />
+                競合分析
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <RadarChart data={competitorAnalysisData}>
+                  <PolarGrid />
+                  <PolarAngleAxis dataKey="name" />
+                  <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                  <Radar name="性能" dataKey="performance" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                  <Radar name="効率" dataKey="efficiency" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
+                  <Radar name="安全性" dataKey="safety" stroke="#ffc658" fill="#ffc658" fillOpacity={0.6} />
+                  <Radar name="価格競争力" dataKey="price" stroke="#ff7300" fill="#ff7300" fillOpacity={0.6} />
+                  <Legend />
+                </RadarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="feedback" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <MessageSquare className="mr-2" />
+                顧客フィードバック
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-2">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>顧客満足度スコア</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-4xl font-bold">{customerFeedbackData.satisfactionScore}/5</div>
+                    <Progress value={(customerFeedbackData.satisfactionScore / 5) * 100} className="mt-2" />
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>主要な改善領域</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={200}>
+                      <PieChart>
+                        <Pie
+                          data={customerFeedbackData.topIssues}
+                          dataKey="count"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={80}
+                          fill="#8884d8"
+                          label
+                        >
+                          {customerFeedbackData.topIssues.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="dependencies" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <GitBranch className="mr-2" />
+                プロジェクト間の依存関係
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>プロジェクト名</TableHead>
+                      <TableHead>依存関係</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {projectDependencies.map((project) => (
+                      <TableRow key={project.id}>
+                        <TableCell>{project.name}</TableCell>
+                        <TableCell>
+                          {project.dependencies.length > 0 ? (
+                            project.dependencies.map((depId) => (
+                              <Badge key={depId} variant="secondary" className="mr-1">
+                                {projectDependencies.find((p) => p.id === depId)?.name}
+                              </Badge>
+                            ))
+                          ) : (
+                            <span className="text-muted-foreground">なし</span>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
 
       {viewMode === 'developer' && (
