@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, Cell } from 'recharts'
-import { Car, ShieldCheck, Factory, Cpu, Calendar, AlertTriangle, CheckCircle2, Brain, Workflow, GitBranch, MessageSquare, TrendingUp, FileText, BookOpen, TestTube, Zap, Truck, List, BarChart2, Users, Eye, EyeOff, GitCommit, GitMerge, GitPullRequest, Info, XCircle, Code, AlertOctagon, Activity, DollarSign, UserCheck, Recycle, Briefcase, TrendingDown, Lightbulb, Target, Sliders, Thermometer, Droplet, Wind } from "lucide-react"
+import { Car, ShieldCheck, Factory, Cpu, Calendar, AlertTriangle, CheckCircle2, Brain, Workflow, GitBranch, MessageSquare, TrendingUp, FileText, BookOpen, TestTube, Zap, Truck, List, BarChart2, Users, Eye, EyeOff, GitCommit, GitMerge, GitPullRequest, Info, XCircle, Code, AlertOctagon, Activity, DollarSign, UserCheck, Recycle, Briefcase, TrendingDown, Lightbulb, Target, Sliders, Thermometer, Droplet, Wind, Settings, Layers, GitFork, GitPullRequestDraft } from "lucide-react"
 
 export default function Component() {
   const [timeRange, setTimeRange] = useState('week')
@@ -209,6 +209,36 @@ export default function Component() {
     { time: '18:00', temperature: 25, humidity: 58, windSpeed: 6 },
   ]
 
+  // 新しいデータ構造
+  const configurationItems = [
+    { id: 'CI-001', name: 'エンジン制御ユニット', version: '2.3.1', lastModified: '2023-09-15', status: 'approved' },
+    { id: 'CI-002', name: 'インフォテインメントシステム', version: '4.0.2', lastModified: '2023-09-20', status: 'in_review' },
+    { id: 'CI-003', name: 'ブレーキ制御モジュール', version: '1.5.0', lastModified: '2023-09-18', status: 'approved' },
+    { id: 'CI-004', name: 'バッテリー管理システム', version: '3.1.4', lastModified: '2023-09-22', status: 'in_development' },
+  ]
+
+  const baselineData = [
+    { id: 'BL-001', name: '車両Aプラットフォーム基本設計', date: '2023-08-01', status: 'locked' },
+    { id: 'BL-002', name: 'パワートレイン仕様v2', date: '2023-08-15', status: 'locked' },
+    { id: 'BL-003', name: '安全システム要件', date: '2023-09-01', status: 'in_review' },
+    { id: 'BL-004', name: 'ユーザーインターフェース設計', date: '2023-09-10', status: 'proposed' },
+  ]
+
+  const changeRequests = [
+    { id: 'CR-001', title: 'バッテリー容量増加', status: 'approved', priority: 'high', impact: '中' },
+    { id: 'CR-002', title: 'ダッシュボードUIの改善', status: 'in_review', priority: 'medium', impact: '低' },
+    { id: 'CR-003', title: '自動駐車機能の追加', status: 'proposed', priority: 'low', impact: '高' },
+    { id: 'CR-004', title: 'ブレーキシステムの最適化', status: 'implemented', priority: 'high', impact: '中' },
+  ]
+
+  const developmentPhases = [
+    { name: '要件定義', progress: 100, startDate: '2023-01-01', endDate: '2023-02-28' },
+    { name: '設計', progress: 85, startDate: '2023-03-01', endDate: '2023-05-31' },
+    { name: '実装', progress: 60, startDate: '2023-06-01', endDate: '2023-09-30' },
+    { name: 'テスト', progress: 30, startDate: '2023-10-01', endDate: '2023-12-31' },
+    { name: '検証', progress: 10, startDate: '2024-01-01', endDate: '2024-02-29' },
+  ]
+
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
 
   const CustomTooltip = ({ active, payload, label }) => {
@@ -330,19 +360,28 @@ export default function Component() {
       )}
 
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
           <TabsTrigger value="overview">概要</TabsTrigger>
+          <TabsTrigger value="configuration">構成管理</TabsTrigger>
+          <TabsTrigger value="baseline">ベースライン</TabsTrigger>
+          <TabsTrigger value="changes">変更管理</TabsTrigger>
+          <TabsTrigger value="phases">開発フェーズ</TabsTrigger>
           <TabsTrigger value="risk">リスク管理</TabsTrigger>
           <TabsTrigger value="quality">品質メトリクス</TabsTrigger>
-          <TabsTrigger value="supplyChain">サプライチェーン</TabsTrigger>
-          <TabsTrigger value="environmental">環境影響</TabsTrigger>
-          <TabsTrigger value="financial">財務</TabsTrigger>
-          <TabsTrigger value="hr">人材リソース</TabsTrigger>
-          <TabsTrigger value="competitors">競合分析</TabsTrigger>
-          <TabsTrigger value="feedback">顧客フィードバック</TabsTrigger>
-          <TabsTrigger value="dependencies">プロジェクト依存関係</TabsTrigger>
-          <TabsTrigger value="innovation">イノベーション</TabsTrigger>
-          <TabsTrigger value="performance">性能テスト</TabsTrigger>
+          {viewMode === 'manager' && (
+            <>
+              <TabsTrigger value="financial">財務</TabsTrigger>
+              <TabsTrigger value="hr">人材リソース</TabsTrigger>
+              <TabsTrigger value="competitors">競合分析</TabsTrigger>
+            </>
+          )}
+          {viewMode === 'developer' && (
+            <>
+              <TabsTrigger value="tasks">タスク</TabsTrigger>
+              <TabsTrigger value="codeReview">コードレビュー</TabsTrigger>
+              <TabsTrigger value="testing">テスト</TabsTrigger>
+            </>
+          )}
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -398,21 +437,165 @@ export default function Component() {
           </div>
           <Card>
             <CardHeader>
-              <CardTitle>プロジェクトマイルストーン</CardTitle>
+              <CardTitle>開発フェーズ進捗</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={ganttData} layout="vertical">
+                <BarChart data={developmentPhases} layout="vertical">
                   <XAxis type="number" domain={[0, 100]} />
-                  <YAxis dataKey="task" type="category" />
+                  <YAxis dataKey="name" type="category" />
                   <Tooltip />
                   <Bar dataKey="progress" fill="#8884d8">
-                    {ganttData.map((entry, index) => (
+                    {developmentPhases.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="configuration" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Settings className="mr-2" />
+                構成管理
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>ID</TableHead>
+                    <TableHead>名称</TableHead>
+                    <TableHead>バージョン</TableHead>
+                    <TableHead>最終更新日</TableHead>
+                    <TableHead>ステータス</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {configurationItems.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>{item.id}</TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.version}</TableCell>
+                      <TableCell>{item.lastModified}</TableCell>
+                      <TableCell>
+                        <Badge variant={item.status === 'approved' ? 'success' : 'secondary'}>
+                          {item.status}
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="baseline" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Layers className="mr-2" />
+                ベースライン管理
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>ID</TableHead>
+                    <TableHead>名称</TableHead>
+                    <TableHead>日付</TableHead>
+                    <TableHead>ステータス</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {baselineData.map((baseline) => (
+                    <TableRow key={baseline.id}>
+                      <TableCell>{baseline.id}</TableCell>
+                      <TableCell>{baseline.name}</TableCell>
+                      <TableCell>{baseline.date}</TableCell>
+                      <TableCell>
+                        <Badge variant={baseline.status === 'locked' ? 'success' : 'secondary'}>
+                          {baseline.status}
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="changes" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <GitFork className="mr-2" />
+                変更管理
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>ID</TableHead>
+                    <TableHead>タイトル</TableHead>
+                    <TableHead>ステータス</TableHead>
+                    <TableHead>優先度</TableHead>
+                    <TableHead>影響度</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {changeRequests.map((cr) => (
+                    <TableRow key={cr.id}>
+                      <TableCell>{cr.id}</TableCell>
+                      <TableCell>{cr.title}</TableCell>
+                      <TableCell>
+                        <Badge variant={cr.status === 'approved' ? 'success' : 'secondary'}>
+                          {cr.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={cr.priority === 'high' ? 'destructive' : 'secondary'}>
+                          {cr.priority}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{cr.impact}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="phases" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <GitPullRequestDraft className="mr-2" />
+                開発フェーズ
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {developmentPhases.map((phase, index) => (
+                <div key={index} className="mb-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-semibold">{phase.name}</span>
+                    <span className="text-sm text-muted-foreground">
+                      {phase.startDate} - {phase.endDate}
+                    </span>
+                  </div>
+                  <Progress value={phase.progress} className="w-full" />
+                  <span className="text-sm text-muted-foreground">{phase.progress}% 完了</span>
+                </div>
+              ))}
             </CardContent>
           </Card>
         </TabsContent>
@@ -483,418 +666,223 @@ export default function Component() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="supplyChain" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Truck className="mr-2" />
-                サプライチェーン可視化
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={supplyChainData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Legend />
-                  <Bar dataKey="onTime" name="納期遵守率" fill="#8884d8" />
-                  <Bar dataKey="quality" name="品質スコア" fill="#82ca9d" />
-                  <Bar dataKey="inventory" name="在庫レベル" fill="#ffc658" />
-                </BarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="environmental" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Recycle className="mr-2" />
-                環境影響評価
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 md:grid-cols-3">
-                {environmentalData.map((metric, index) => (
-                  <Card key={index}>
-                    <CardHeader>
-                      <CardTitle>{metric.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold">{metric.value}{metric.unit}</div>
-                      <p className="text-sm text-muted-foreground">目標: {metric.target}{metric.unit}</p>
-                      <Progress value={(metric.value / metric.target) * 100} className="mt-2" />
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="financial" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <DollarSign className="mr-2" />
-                財務トラッキング
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 md:grid-cols-3">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>予算使用状況</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{financialData.budgetUsage}%</div>
-                    <Progress value={financialData.budgetUsage} className="mt-2" />
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>コスト予測</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{financialData.costForecast}%</div>
-                    <p className="text-sm text-muted-foreground">予算比</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>ROI</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{financialData.roi}%</div>
-                    <p className="text-sm text-muted-foreground">予測投資収益率</p>
-                  </CardContent>
-                </Card>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="hr" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <UserCheck className="mr-2" />
-                人材リソース管理
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={humanResourcesData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Legend />
-                  <Bar dataKey="allocated" name="割り当て済み" fill="#8884d8" />
-                  <Bar dataKey="available" name="利用可能" fill="#82ca9d" />
-                </BarChart>
-              </ResponsiveContainer>
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold mb-2">リソース稼働率</h3>
-                {humanResourcesData.map((dept, index) => (
-                  <div key={index} className="flex items-center justify-between mb-2">
-                    <span>{dept.name}</span>
-                    <div className="flex items-center">
-                      <Progress value={dept.utilization} className="w-24 mr-2" />
-                      <span>{dept.utilization}%</span>
-                    </div>
+        {viewMode === 'manager' && (
+          <>
+            <TabsContent value="financial" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <DollarSign className="mr-2" />
+                    財務トラッキング
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>予算使用状況</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">{financialData.budgetUsage}%</div>
+                        <Progress value={financialData.budgetUsage} className="mt-2" />
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>コスト予測</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">{financialData.costForecast}%</div>
+                        <p className="text-sm text-muted-foreground">予算比</p>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>ROI</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">{financialData.roi}%</div>
+                        <p className="text-sm text-muted-foreground">予測投資収益率</p>
+                      </CardContent>
+                    </Card>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-        <TabsContent value="competitors" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <TrendingUp className="mr-2" />
-                競合分析
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <RadarChart data={competitorAnalysisData}>
-                  <PolarGrid />
-                  <PolarAngleAxis dataKey="name" />
-                  <PolarRadiusAxis angle={30} domain={[0, 100]} />
-                  <Radar name="性能" dataKey="performance" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                  <Radar name="効率" dataKey="efficiency" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
-                  <Radar name="安全性" dataKey="safety" stroke="#ffc658" fill="#ffc658" fillOpacity={0.6} />
-                  <Radar name="価格競争力" dataKey="price" stroke="#ff7300" fill="#ff7300" fillOpacity={0.6} />
-                  <Legend />
-                </RadarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="feedback" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <MessageSquare className="mr-2" />
-                顧客フィードバック
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 md:grid-cols-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>顧客満足度スコア</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-4xl font-bold">{customerFeedbackData.satisfactionScore}/5</div>
-                    <Progress value={(customerFeedbackData.satisfactionScore / 5) * 100} className="mt-2" />
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>主要な改善領域</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ResponsiveContainer width="100%" height={200}>
-                      <PieChart>
-                        <Pie
-                          data={customerFeedbackData.topIssues}
-                          dataKey="count"
-                          nameKey="name"
-                          cx="50%"
-                          cy="50%"
-                          outerRadius={80}
-                          fill="#8884d8"
-                          label
-                        >
-                          {customerFeedbackData.topIssues.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </CardContent>
-                </Card>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="dependencies" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <GitBranch className="mr-2" />
-                プロジェクト間の依存関係
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>プロジェクト名</TableHead>
-                      <TableHead>依存関係</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {projectDependencies.map((project) => (
-                      <TableRow key={project.id}>
-                        <TableCell>{project.name}</TableCell>
-                        <TableCell>
-                          {project.dependencies.length > 0 ? (
-                            project.dependencies.map((depId) => (
-                              <Badge key={depId} variant="secondary" className="mr-1">
-                                {projectDependencies.find((p) => p.id === depId)?.name}
-                              </Badge>
-                            ))
-                          ) : (
-                            <span className="text-muted-foreground">なし</span>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="innovation" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Lightbulb className="mr-2" />
-                イノベーションアイデア
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>アイデア</TableHead>
-                      <TableHead>投票数</TableHead>
-                      <TableHead>ステータス</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {innovationIdeas.map((idea) => (
-                      <TableRow key={idea.id}>
-                        <TableCell>{idea.title}</TableCell>
-                        <TableCell>{idea.votes}</TableCell>
-                        <TableCell>
-                          <Badge variant={
-                            idea.status === 'approved' ? 'success' :
-                            idea.status === 'in_progress' ? 'warning' : 'secondary'
-                          }>
-                            {idea.status === 'approved' ? '承認済み' :
-                             idea.status === 'in_progress' ? '進行中' : '審査中'}
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="performance" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Target className="mr-2" />
-                性能テスト結果
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <RadarChart data={performanceTestData}>
-                  <PolarGrid />
-                  <PolarAngleAxis dataKey="name" />
-                  <PolarRadiusAxis angle={30} domain={[0, 100]} />
-                  <Radar name="実績値" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                  <Radar name="目標値" dataKey="target" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
-                  <Legend />
-                </RadarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-
-      {viewMode === 'developer' && (
-        <Card className="mt-6 border-primary/50 shadow-lg">
-          <CardHeader>
-            <CardTitle className="flex items-center text-2xl">
-              <Code className="mr-2 text-primary" />
-              開発者ビュー
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div>
-                <h3 className="text-lg font-semibold mb-2">担当タスク</h3>
-                <ul className="space-y-2">
-                  {[
-                    { name: 'ブレーキシステムの最適化', priority: 'high', deadline: '2023-10-15', progress: 60 },
-                    { name: 'ユーザーインターフェースの多言語対応', priority: 'medium', deadline: '2023-10-30', progress: 40 },
-                    { name: 'バッテリー管理システムのテスト', priority: 'low', deadline: '2023-11-15', progress: 20 },
-                  ].map((task, index) => (
-                    <li key={index} className="flex items-center justify-between">
-                      <div>
-                        <span>{task.name}</span>
-                        <div className="flex items-center mt-1">
-                          <Progress value={task.progress} className="w-24 mr-2" />
-                          <span className="text-sm text-muted-foreground">{task.progress}%</span>
+            <TabsContent value="hr" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <UserCheck className="mr-2" />
+                    人材リソース管理
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={humanResourcesData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend />
+                      <Bar dataKey="allocated" name="割り当て済み" fill="#8884d8" />
+                      <Bar dataKey="available" name="利用可能" fill="#82ca9d" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                  <div className="mt-4">
+                    <h3 className="text-lg font-semibold mb-2">リソース稼働率</h3>
+                    {humanResourcesData.map((dept, index) => (
+                      <div key={index} className="flex items-center justify-between mb-2">
+                        <span>{dept.name}</span>
+                        <div className="flex items-center">
+                          <Progress value={dept.utilization} className="w-24 mr-2" />
+                          <span>{dept.utilization}%</span>
                         </div>
                       </div>
-                      <div>
-                        <Badge variant={
-                          task.priority === 'high' ? 'destructive' :
-                          task.priority === 'medium' ? 'warning' : 'secondary'
-                        }>
-                          {task.priority}
-                        </Badge>
-                        <span className="ml-2 text-sm text-muted-foreground">{task.deadline}</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-2">最近のコードレビュー</h3>
-                <ul className="space-y-2">
-                  {[
-                    { name: 'PR #123: Add new sensor integration', status: 'approved', reviewer: 'Alice', comments: 5 },
-                    { name: 'PR #124: Refactor authentication module', status: 'changes_requested', reviewer: 'Bob', comments: 8 },
-                    { name: 'PR #125: Update documentation', status: 'pending', reviewer: 'Charlie', comments: 2 },
-                  ].map((review, index) => (
-                    <li key={index} className="flex items-center justify-between">
-                      <span>{review.name}</span>
-                      <div>
-                        <Badge variant={
-                          review.status === 'approved' ? 'success' :
-                          review.status === 'changes_requested' ? 'destructive' : 'secondary'
-                        }>
-                          {review.status}
-                        </Badge>
-                        <span className="ml-2 text-sm text-muted-foreground">by {review.reviewer}</span>
-                        <span className="ml-2 text-sm text-muted-foreground">({review.comments} comments)</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {collaborationMode && (
-        <Card className="mt-6 border-primary/50 shadow-lg">
-          <CardHeader>
-            <Car className="mr-2 text-primary" />
-            <CardTitle className="flex items-center text-2xl">
-              <MessageSquare className="mr-2 text-primary" />
-              リアルタイムコラボレーション
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-4">
-              {['Alice', 'Bob', 'Charlie', 'Diana'].map((member, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <Avatar>
-                    <AvatarImage src={`/avatars/${member.toLowerCase()}.png`} alt={member} />
-                    <AvatarFallback>{member[0]}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="text-sm font-medium">{member}</p>
-                    <p className="text-xs text-muted-foreground">オンライン</p>
+                    ))}
                   </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-4">
-              <Button>
-                <MessageSquare className="mr-2 h-4 w-4" />
-                チャットを開始
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="competitors" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <TrendingUp className="mr-2" />
+                    競合分析
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <RadarChart data={competitorAnalysisData}>
+                      <PolarGrid />
+                      <PolarAngleAxis dataKey="name" />
+                      <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                      <Radar name="性能" dataKey="performance" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                      <Radar name="効率" dataKey="efficiency" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
+                      <Radar name="安全性" dataKey="safety" stroke="#ffc658" fill="#ffc658" fillOpacity={0.6} />
+                      <Radar name="価格競争力" dataKey="price" stroke="#ff7300" fill="#ff7300" fillOpacity={0.6} />
+                      <Legend />
+                    </RadarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </>
+        )}
+
+        {viewMode === 'developer' && (
+          <>
+            <TabsContent value="tasks" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <List className="mr-2" />
+                    担当タスク
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    {[
+                      { name: 'ブレーキシステムの最適化', priority: 'high', deadline: '2023-10-15', progress: 60 },
+                      { name: 'ユーザーインターフェースの多言語対応', priority: 'medium', deadline: '2023-10-30', progress: 40 },
+                      { name: 'バッテリー管理システムのテスト', priority: 'low', deadline: '2023-11-15', progress: 20 },
+                    ].map((task, index) => (
+                      <li key={index} className="flex items-center justify-between">
+                        <div>
+                          <span>{task.name}</span>
+                          <div className="flex items-center mt-1">
+                            <Progress value={task.progress} className="w-24 mr-2" />
+                            <span className="text-sm text-muted-foreground">{task.progress}%</span>
+                          </div>
+                        </div>
+                        <div>
+                          <Badge variant={
+                            task.priority === 'high' ? 'destructive' :
+                            task.priority === 'medium' ? 'warning' : 'secondary'
+                          }>
+                            {task.priority}
+                          </Badge>
+                          <span className="ml-2 text-sm text-muted-foreground">{task.deadline}</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="codeReview" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <GitPullRequest className="mr-2" />
+                    コードレビュー
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    {[
+                      { name: 'PR #123: Add new sensor integration', status: 'approved', reviewer: 'Alice', comments: 5 },
+                      { name: 'PR #124: Refactor authentication module', status: 'changes_requested', reviewer: 'Bob', comments: 8 },
+                      { name: 'PR #125: Update documentation', status: 'pending', reviewer: 'Charlie', comments: 2 },
+                    ].map((review, index) => (
+                      <li key={index} className="flex items-center justify-between">
+                        <span>{review.name}</span>
+                        <div>
+                          <Badge variant={
+                            review.status === '承認済み' ? 'success' :
+                            review.status === '変更要求' ? 'destructive' : 'secondary'
+                          }>
+                            {review.status}
+                          </Badge>
+                          <span className="ml-2 text-sm text-muted-foreground">by {review.reviewer}</span>
+                          <span className="ml-2 text-sm text-muted-foreground">({review.comments} comments)</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="testing" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <TestTube className="mr-2" />
+                    テスト状況
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>ユニットテストカバレッジ</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">85%</div>
+                        <Progress value={85} className="mt-2" />
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>統合テスト進捗</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">70%</div>
+                        <Progress value={70} className="mt-2" />
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </>
+        )}
+      </Tabs>
 
       <Card className="mt-6 border-primary/50 shadow-lg">
         <CardHeader>
