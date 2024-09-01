@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, Cell } from 'recharts'
-import { Car, ShieldCheck, Factory, Cpu, Calendar, AlertTriangle, CheckCircle2, Brain, Workflow, GitBranch, MessageSquare, TrendingUp, FileText, BookOpen, TestTube, Zap, Truck, List, BarChart2, Users, Eye, EyeOff, GitCommit, GitMerge, GitPullRequest, Info, XCircle, Code, AlertOctagon, Activity, DollarSign, UserCheck, Recycle, Briefcase, TrendingDown } from "lucide-react"
+import { Car, ShieldCheck, Factory, Cpu, Calendar, AlertTriangle, CheckCircle2, Brain, Workflow, GitBranch, MessageSquare, TrendingUp, FileText, BookOpen, TestTube, Zap, Truck, List, BarChart2, Users, Eye, EyeOff, GitCommit, GitMerge, GitPullRequest, Info, XCircle, Code, AlertOctagon, Activity, DollarSign, UserCheck, Recycle, Briefcase, TrendingDown, Lightbulb, Target, Sliders, Thermometer, Droplet, Wind } from "lucide-react"
 
 export default function Component() {
   const [timeRange, setTimeRange] = useState('week')
@@ -186,6 +186,29 @@ export default function Component() {
     }
   ]
 
+  const innovationIdeas = [
+    { id: 1, title: '自動運転AI改善', votes: 45, status: 'under_review' },
+    { id: 2, title: 'バッテリー寿命延長技術', votes: 38, status: 'approved' },
+    { id: 3, title: '車内空気質モニタリング', votes: 27, status: 'in_progress' },
+    { id: 4, title: 'ジェスチャー制御インターフェース', votes: 19, status: 'under_review' },
+    { id: 5, title: 'ソーラーパネル統合ボディ', votes: 31, status: 'approved' },
+  ]
+
+  const performanceTestData = [
+    { name: '加速性能', value: 92, target: 95 },
+    { name: '制動距離', value: 88, target: 90 },
+    { name: '最高速度', value: 98, target: 100 },
+    { name: '燃費', value: 95, target: 95 },
+    { name: 'ハンドリング', value: 90, target: 92 },
+  ]
+
+  const weatherData = [
+    { time: '9:00', temperature: 22, humidity: 60, windSpeed: 5 },
+    { time: '12:00', temperature: 26, humidity: 55, windSpeed: 7 },
+    { time: '15:00', temperature: 28, humidity: 50, windSpeed: 8 },
+    { time: '18:00', temperature: 25, humidity: 58, windSpeed: 6 },
+  ]
+
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
 
   const CustomTooltip = ({ active, payload, label }) => {
@@ -318,6 +341,8 @@ export default function Component() {
           <TabsTrigger value="competitors">競合分析</TabsTrigger>
           <TabsTrigger value="feedback">顧客フィードバック</TabsTrigger>
           <TabsTrigger value="dependencies">プロジェクト依存関係</TabsTrigger>
+          <TabsTrigger value="innovation">イノベーション</TabsTrigger>
+          <TabsTrigger value="performance">性能テスト</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -371,6 +396,25 @@ export default function Component() {
               </CardContent>
             </Card>
           </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>プロジェクトマイルストーン</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={ganttData} layout="vertical">
+                  <XAxis type="number" domain={[0, 100]} />
+                  <YAxis dataKey="task" type="category" />
+                  <Tooltip />
+                  <Bar dataKey="progress" fill="#8884d8">
+                    {ganttData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="risk" className="space-y-4">
@@ -684,6 +728,70 @@ export default function Component() {
             </CardContent>
           </Card>
         </TabsContent>
+
+        <TabsContent value="innovation" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Lightbulb className="mr-2" />
+                イノベーションアイデア
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>アイデア</TableHead>
+                      <TableHead>投票数</TableHead>
+                      <TableHead>ステータス</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {innovationIdeas.map((idea) => (
+                      <TableRow key={idea.id}>
+                        <TableCell>{idea.title}</TableCell>
+                        <TableCell>{idea.votes}</TableCell>
+                        <TableCell>
+                          <Badge variant={
+                            idea.status === 'approved' ? 'success' :
+                            idea.status === 'in_progress' ? 'warning' : 'secondary'
+                          }>
+                            {idea.status === 'approved' ? '承認済み' :
+                             idea.status === 'in_progress' ? '進行中' : '審査中'}
+                          </Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="performance" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Target className="mr-2" />
+                性能テスト結果
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <RadarChart data={performanceTestData}>
+                  <PolarGrid />
+                  <PolarAngleAxis dataKey="name" />
+                  <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                  <Radar name="実績値" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                  <Radar name="目標値" dataKey="target" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
+                  <Legend />
+                </RadarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
 
       {viewMode === 'developer' && (
@@ -757,6 +865,7 @@ export default function Component() {
       {collaborationMode && (
         <Card className="mt-6 border-primary/50 shadow-lg">
           <CardHeader>
+            <Car className="mr-2 text-primary" />
             <CardTitle className="flex items-center text-2xl">
               <MessageSquare className="mr-2 text-primary" />
               リアルタイムコラボレーション
@@ -786,6 +895,42 @@ export default function Component() {
           </CardContent>
         </Card>
       )}
+
+      <Card className="mt-6 border-primary/50 shadow-lg">
+        <CardHeader>
+          <CardTitle className="flex items-center text-2xl">
+            <Sliders className="mr-2 text-primary" />
+            テスト環境モニタリング
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {weatherData.map((data, index) => (
+              <Card key={index}>
+                <CardHeader>
+                  <CardTitle>{data.time}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <Thermometer className="mr-2 h-4 w-4" />
+                      <span>{data.temperature}°C</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Droplet className="mr-2 h-4 w-4" />
+                      <span>{data.humidity}%</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Wind className="mr-2 h-4 w-4" />
+                      <span>{data.windSpeed} m/s</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
